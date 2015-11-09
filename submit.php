@@ -120,3 +120,5 @@ echo $row['id'] . " " . $row['email']. " " . $row['phone'];
 
 $link->close();
 
+?>
+

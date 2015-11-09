@@ -30,7 +30,6 @@ $client = new Aws\S3\S3Client([
     'region'  => 'us-east-1'
 ]);
 
-$client = S3Client::factory();
 $bucket = uniqueid("php-jph-",false);
 
 $result = $client->putObject(array(

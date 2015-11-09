@@ -3,7 +3,7 @@
 <head><title>Image Upload App</title>
 </head>
 <body>
-<form enctype="multipart/form-data" action="results.php" method="POST">
+<form enctype="multipart/form-data" action="submit.php" method="POST">
 <input type="hidden" name="MAX_FILE_SIZE" value="3000000" />
 Send this file: <input name="userfile" type="file" /><br />
 Enter username: <input type="uname" name="uname" /><br />

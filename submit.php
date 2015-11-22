@@ -1,3 +1,8 @@
+<html>
+<head><title>Submit</title>
+</head>
+<body>
+
 <?php 
 
 session_start();
@@ -91,3 +96,5 @@ header('Location: gallery.php');
 
 ?>
 
+</body>
+</html>

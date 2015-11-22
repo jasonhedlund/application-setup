@@ -7,9 +7,9 @@
 
 session_start();
 
-echo $_POST['useremail']
+echo $_POST['useremail'];
 
-$uploaddir = '/tmp'
+$uploaddir = '/tmp';
 $uploadfile = $uploaddir . basename($_FILES['userfile']['name'];
 $filename = $_FILES['userfile']['name'];
 echo '<pre>';

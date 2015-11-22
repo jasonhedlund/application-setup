@@ -87,9 +87,23 @@ echo $link->error;
 
 echo $results;
 
+$query = "SELECT * FROM PERSON";
 
+if($res=$link->query($query)){
+
+printf("Selected returned %d rows.\n", $res->num_rows);
+}
+
+echo -e "Results set in order...\n"
+
+while($row=$res->fetch_assoc()){
+
+echo $row['id'] . " " . $row['email']. " " . $row['phone'];
+}
 
 $link->close();
+
+header('Location: gallery.php');
 
 ?>
 

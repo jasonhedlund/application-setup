@@ -4,15 +4,15 @@ require 'vendor/autoload.php';
 
 use Aws\Rds\RdsClient;
 
-$client = RdsClient::factory(array(
+$client = RdsClient::factory([
 'region'  => 'us-east-1'
 'version' => 'latest'
-));
+]);
 
 
-$result = $client->describeDBInstances(array(
+$result = $client->describeDBInstances([
     'DBInstanceIdentifier' => 'mp1jphdb',
-));
+]);
 
 
 $endpoint = $result['DBInstances'][0]['Endpoint']['Address'];
@@ -47,5 +47,7 @@ else {
 }
 
 $link->close();
+
+$output="shell_exec("sudo chmod 600 setup.php");
 
 ?>

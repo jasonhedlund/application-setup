@@ -1,8 +1,3 @@
-<html>
-<head><title>Submit</title>
-</head>
-<body>
-
 <?php 
 
 session_start();
@@ -15,7 +10,7 @@ $uploadfile = $uploaddir . basename($_FILES['userfile']['name']);
 $filename = $_FILES['userfile']['name'];
 echo '<pre>';
 
-if (move_uploaded_files($_FILES['userfile']['tmp_name'], $uploadfile)) {
+if (move_uploaded_files($_FILES['userfile']['tmp_name'],$uploadfile)) {
 
 echo -e "File is valid, and was successfully uploaded.\n"
 
@@ -39,7 +34,7 @@ $s3 = new Aws\S3\S3Client([
     'region'  => 'us-east-1'
 ]);
 
-$bucket = uniqueid("php-jph-",false);
+$bucket = uniqid("php-jph-",false);
 
 $result = $s3->createBucket([
 
@@ -78,12 +73,13 @@ if (mysqli_connect_errno()) {
 
 $email = $_POST['useremail'];
 $phone = $_POST['phone'];
+$uname = $_POST['uname'];
 $s3rawurl = $url;
 $filename = basename($_FILES['userfile']['name']);
 $s3finishedurl = "none";
 $state = 0;
 
-mysqli_query($link, INSERT INTO PERSON (id,uname,email,phone,filename,s3rawurl,s3finishedurl,state,datetime) VALUES (NULL, '$uname', $'email', $'$phone', $'filename', $'s3rawurl', $'s3finishedurl', $'state', NULL)");
+mysqli_query($link, INSERT INTO PERSON (id,uname,email,phone,filename,s3rawurl,s3finishedurl,state,datetime) VALUES (NULL, $'uname', $'email', $'$phone', $'filename', $'s3rawurl', $'s3finishedurl', $'state', NULL)");
 
 $results = $link->insert_id;
 
@@ -91,11 +87,9 @@ echo $link->error;
 
 echo $results;
 
-$link->close();
 
-header('Location: gallery.php');
+
+$link->close();
 
 ?>
 
-</body>
-</html>

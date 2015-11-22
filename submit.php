@@ -8,9 +8,10 @@
 session_start();
 
 echo $_POST['useremail'];
+echo $_POST['phone'];
 
 $uploaddir = '/tmp';
-$uploadfile = $uploaddir . basename($_FILES['userfile']['name'];
+$uploadfile = $uploaddir . basename($_FILES['userfile']['name']);
 $filename = $_FILES['userfile']['name'];
 echo '<pre>';
 

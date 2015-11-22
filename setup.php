@@ -2,9 +2,7 @@
 
 require 'vendor/autoload.php';
 
-use Aws\Rds\RdsClient;
-
-$client = RdsClient::factory([
+$rds = new Aws\Rds\RdsClient([
 'region'  => 'us-east-1'
 'version' => 'latest'
 ]);

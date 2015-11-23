@@ -25,7 +25,7 @@ if (mysqli_connect_errno()) {
     exit();
 }
 
-$create_table = 'CREATE TABLE PERSON
+$create_table = "CREATE TABLE PERSON
 (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     uname VARCHAR(20),
@@ -35,7 +35,7 @@ $create_table = 'CREATE TABLE PERSON
     s3rawurl VARCHAR(255),
     s3finishedurl VARCHAR(255),
     state TINYINT(3) CHECK(STATE IN(0,1,2)),
-    datetime TIMESTAMP)")';
+    datetime TIMESTAMP)";
 
 $create_tbl = $link->query($create_table);
 

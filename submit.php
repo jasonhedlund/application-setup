@@ -44,7 +44,7 @@ $result = $client->createBucket(array(
 'Bucket' => $bucket
 ));
 
-$client->waitUntilBucketExists(array(
+$client->waitUntil('BucketExists', array(
 'Bucket' => $bucket
 ));
 

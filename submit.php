@@ -118,8 +118,6 @@ echo $row['id'] . " " . $row['email']. " " . $row['phone'];
 
 $link->close();
 
-header('Location: gallery.php');
-
 ?>
 
 </body>

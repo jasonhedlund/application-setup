@@ -48,6 +48,4 @@ else {
 
 $link->close();
 
-$output="shell_exec("sudo chmod 600 setup.php");
-
 ?>

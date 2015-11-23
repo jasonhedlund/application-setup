@@ -3,14 +3,12 @@
 session_start();
 
 echo $_POST['useremail'];
-echo $_POST['phone'];
 
 $uploaddir = '/tmp';
 $uploadfile = $uploaddir . basename($_FILES['userfile']['name']);
-$filename = $_FILES['userfile']['name'];
 echo '<pre>';
 
-if (move_uploaded_files($_FILES['userfile']['tmp_name'],$uploadfile)) {
+if (move_uploaded_files($_FILES['userfile']['tmp_name'], $uploadfile)) {
 
 echo -e "File is valid, and was successfully uploaded.\n"
 
@@ -29,33 +27,36 @@ print "</pre>";
 
 require 'vendor/autoload.php';
 
-$s3 = new Aws\S3\S3Client([
-    'version' => 'latest',
-    'region'  => 'us-east-1'
-]);
+use Aws\S3\S3Client;
+
+$client = S3Client::factory();
 
 $bucket = uniqid("php-jph-",false);
 
-$result = $s3->createBucket([
-
-'ACL' => 'public-read-write',
-'Bucket' => $bucket,
+$result = $client->createBucket([
+'Bucket' => $bucket
 ]);
 
-print_r($result);
+$client->waitUntilBucketExists([
+'Bucket' => $bucket
+]);
 
-$result = s3->putObject([
+$key = $uploadfile
+
+$result = $client->putObject([
 	'ACL' => 'public-read-write',
 	'Bucket' => $bucket,
-	'Key' => $uploadfile,
+	'Key' => $key,
 	'SourceFile' => $uploadfile,
 ]);
 
 $url = $result['ObjectURL'];
 echo $url;
 
-$rds = new Aws\Rds\RdsClient([
-'region' => 'us-east-1'
+use Aws\Rds\RdsClient;
+
+$client = RdsClient::factory([
+'region' => 'us-east-1',
 'version' => 'latest'
 ]);
 
@@ -63,7 +64,13 @@ $result = $rds->describeDBInstances([
 'DBInstanceIdentifier' => 'mp1jphdb',
 ]);
 
-$endpoint = $result['DBInstances'][0]['Endpoint']['Address'];
+$endpoint = " ";
+
+foreach($result->getPath('DBInstances/*/Endpoint/Address') as $ep){
+
+echo $ep;
+$endpoint=$ep
+}
 
 $link = mysqli_connect($endpoint,"jhedlund","letmeinplease","mp1jphdb") or die("Error " . mysqli_error($link));
 
@@ -71,32 +78,39 @@ if (mysqli_connect_errno()) {
     printf("Connect failed: %s\n", mysqli_connect_error());
     exit();
 
-$email = $_POST['useremail'];
-$phone = $_POST['phone'];
-$uname = $_POST['uname'];
-$s3rawurl = $url;
-$filename = basename($_FILES['userfile']['name']);
-$s3finishedurl = "none";
-$state = 0;
+if (!($stmt = $link->prepare("INSERT INTO PERSON (uname,email,phone,filename,s3rawurl,s3finishedurl,state,datetime) VALUES (?,?,?,?,?,?,?,?)"))){
 
-mysqli_query($link, INSERT INTO PERSON (id,uname,email,phone,filename,s3rawurl,s3finishedurl,state,datetime) VALUES (NULL, $'uname', $'email', $'$phone', $'filename', $'s3rawurl', $'s3finishedurl', $'state', NULL)");
-
-$results = $link->insert_id;
-
-echo $link->error;
-
-echo $results;
-
-$query = "SELECT * FROM PERSON";
-
-if($res=$link->query($query)){
-
-printf("Selected returned %d rows.\n", $res->num_rows);
+echo "Prepare failed: (" . $link->errno . ") " . $link->error:
 }
 
-echo -e "Results set in order...\n"
+$uname= $_POST['uname'];
+$email= $_POST['email'];
+$phone= $_POST['phone'];
+$s3rawurl = $url;
+$s3finishedurl = 0;
+$filename = basename($_FILES['userfile']['name'];
+$state = 0;
+$datetime = now(;
 
-while($row=$res->fetch_assoc()){
+$stmt->bind_param($uname,$email,$phone,$s3rawurl,$s3finishedurl,$filename,$state,$datetime);
+
+if (!stmt->execute()){
+
+echo "Execute failed : (" . $stmt->errno . ") " . $stmt->error;
+
+}
+
+printf("%d Rows inserted.\n", $stmt->affected_rows);
+
+$stmt->close();
+
+$link->real_query("SELECT * FROM PERSON");
+
+$res = $link->use_result();
+
+echo -e "Results set in order...\n";
+
+while ($row = $res->fetch_assoc()){
 
 echo $row['id'] . " " . $row['email']. " " . $row['phone'];
 }

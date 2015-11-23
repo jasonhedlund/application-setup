@@ -33,7 +33,7 @@ $create_table = 'CREATE TABLE PERSON
     s3rawurl VARCHAR(255),
     s3finishedurl VARCHAR(255),
     state TINYINT(3) CHECK(STATE IN(0,1,2)),
-    datetime TIMESTAMP)");
+    datetime TIMESTAMP)")';
 
 $create_tbl = $link->query($create_table);
 

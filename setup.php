@@ -2,15 +2,15 @@
 
 require 'vendor/autoload.php';
 
-$rds = new Aws\Rds\RdsClient([
+$rds = new Aws\Rds\RdsClient(array(
 'region'  => 'us-east-1',
 'version' => 'latest'
-]);
+));
 
 
-$result = $client->describeDBInstances([
+$result = $client->describeDBInstances(array(
     'DBInstanceIdentifier' => 'mp1jphdb'
-]);
+));
 
 
 $endpoint = $result['DBInstances'][0]['Endpoint']['Address'];

@@ -32,44 +32,44 @@ require 'vendor/autoload.php';
 
 use Aws\S3\S3Client;
 
-$client = S3Client::factory([
+$client = S3Client::factory(array(
 'version' => 'latest',
 'region' => 'us-east-1'
-]);
+));
 
 $bucket = uniqid("php-jph-",false);
 
-$result = $client->createBucket([
+$result = $client->createBucket(array(
 'ACL' => 'public-read-write',
 'Bucket' => $bucket
-]);
+));
 
-$client->waitUntilBucketExists([
+$client->waitUntilBucketExists(array(
 'Bucket' => $bucket
-]);
+));
 
 $key = $uploadfile
 
-$result = $client->putObject([
+$result = $client->putObject(array(
 	'ACL' => 'public-read-write',
 	'Bucket' => $bucket,
 	'Key' => $key,
 	'SourceFile' => $uploadfile,
-]);
+));
 
 $url = $result['ObjectURL'];
 echo $url;
 
 use Aws\Rds\RdsClient;
 
-$client = RdsClient::factory([
+$client = RdsClient::factory(array(
 'region' => 'us-east-1',
 'version' => 'latest'
-]);
+));
 
-$result = $client->describeDBInstances([
+$result = $client->describeDBInstances(array(
 'DBInstanceIdentifier' => 'mp1jphdb',
-]);
+));
 
 $endpoint = $result['DBInstances'][0]['Endpoint']['Address'];
 

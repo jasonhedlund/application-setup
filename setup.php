@@ -2,7 +2,9 @@
 
 require 'vendor/autoload.php';
 
-$rds = new Aws\Rds\RdsClient(array(
+use Aws\Rds\RdsClient;
+
+$client = RdsClient::factory(array(
 'region'  => 'us-east-1',
 'version' => 'latest'
 ));
@@ -23,7 +25,7 @@ if (mysqli_connect_errno()) {
     exit();
 }
 
-$create_table = 'CREATE TABLE PERSON
+$create_table = 'CREATE TABLE IF NOT EXISTS PERSON
 (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     uname VARCHAR(20),

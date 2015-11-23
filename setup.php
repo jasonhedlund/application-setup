@@ -3,7 +3,7 @@
 require 'vendor/autoload.php';
 
 $rds = new Aws\Rds\RdsClient([
-'region'  => 'us-east-1'
+'region'  => 'us-east-1',
 'version' => 'latest'
 ]);
 

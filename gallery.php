@@ -5,18 +5,18 @@
 
 <?php
 session_start();
-$email = $_POST['useremail'];
+$email = $_POST['email'];
 
 require 'vendor/autoload.php';
 
-$rds = new Aws\Rds\RdsClinet([
+$rds = new Aws\Rds\RdsClinet::factory(array(
 'region'  => 'us-east-1'
 'version' => 'latest'
-]);
+));
 
-$result = $rds->describeDBInstances([
+$result = $rds->describeDBInstances(array(
     'DBInstanceIdentifier' => 'mp1jphdb',
-]);
+));
 
 $endpoint = $result['DBInstances'][0]['Endpoint']['Address'];
 
@@ -29,7 +29,7 @@ if (mysqli_connect_errno()) {
 
 mysqli_query($link, "SELECT * FROM PERSON WHERE email = $'email'");
 
-$results = $link->insert_id;
+$res = $link->use_results();
 
 while($row = $res->fetch_assoc()){
 

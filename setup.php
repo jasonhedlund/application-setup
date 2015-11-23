@@ -9,7 +9,7 @@ $rds = new Aws\Rds\RdsClient([
 
 
 $result = $client->describeDBInstances([
-    'DBInstanceIdentifier' => 'mp1jphdb',
+    'DBInstanceIdentifier' => 'mp1jphdb'
 ]);
 
 
@@ -37,7 +37,7 @@ $create_table = 'CREATE TABLE PERSON
 
 $create_tbl = $link->query($create_table);
 
-if ($create_table) {
+if ($create_tbl) {
 	echo "Table is created or No error returned.";
 }
 else {

@@ -1,3 +1,6 @@
+<html>
+<head>Results</head>
+<body>
 <?php 
 
 session_start();
@@ -120,4 +123,7 @@ $link->close();
 header('Location: gallery.php');
 
 ?>
+
+</body>
+</html>
 

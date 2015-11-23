@@ -11,7 +11,7 @@ $uploaddir = '/tmp';
 $uploadfile = $uploaddir . basename($_FILES['userfile']['name']);
 echo '<pre>';
 
-if (move_uploaded_files($_FILES['userfile']['tmp_name'], $uploadfile)) {
+if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
 
 echo -e "File is valid, and was successfully uploaded.\n"
 
@@ -32,11 +32,15 @@ require 'vendor/autoload.php';
 
 use Aws\S3\S3Client;
 
-$client = S3Client::factory();
+$client = S3Client::factory([
+'version' => 'latest',
+'region' => 'us-east-1'
+]);
 
 $bucket = uniqid("php-jph-",false);
 
 $result = $client->createBucket([
+'ACL' => 'public-read-write',
 'Bucket' => $bucket
 ]);
 
@@ -63,7 +67,7 @@ $client = RdsClient::factory([
 'version' => 'latest'
 ]);
 
-$result = $rds->describeDBInstances([
+$result = $client->describeDBInstances([
 'DBInstanceIdentifier' => 'mp1jphdb',
 ]);
 

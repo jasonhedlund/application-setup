@@ -71,13 +71,7 @@ $result = $client->describeDBInstances([
 'DBInstanceIdentifier' => 'mp1jphdb',
 ]);
 
-$endpoint = " ";
-
-foreach($result->getPath('DBInstances/*/Endpoint/Address') as $ep){
-
-echo $ep;
-$endpoint=$ep
-}
+$endpoint = $result['DBInstances'][0]['Endpoint']['Address'];
 
 $link = mysqli_connect($endpoint,"jhedlund","letmeinplease","mp1jphdb") or die("Error " . mysqli_error($link));
 

@@ -25,7 +25,7 @@ if (mysqli_connect_errno()) {
     exit();
 }
 
-$create_table = 'CREATE TABLE IF NOT EXISTS PERSON
+$create_table = 'CREATE TABLE PERSON
 (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     uname VARCHAR(20),

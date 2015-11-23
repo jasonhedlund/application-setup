@@ -13,13 +13,13 @@ echo '<pre>';
 
 if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
 
-echo -e "File is valid, and was successfully uploaded.\n"
+echo -e "File is valid, and was successfully uploaded.\n";
 
 }
 
 else {
 
-echo -e "Possible file upload attack!\n"
+echo -e "Possible file upload attack!\n";
 
 }
 
@@ -48,7 +48,7 @@ $client->waitUntil('BucketExists', array(
 'Bucket' => $bucket
 ));
 
-$key = $uploadfile
+$key = $uploadfile;
 
 $result = $client->putObject(array(
 	'ACL' => 'public-read-write',
@@ -93,7 +93,7 @@ $filename = basename($_FILES['userfile']['name'];
 $state = 0;
 $datetime = now(;
 
-$stmt->bind_param($uname,$email,$phone,$s3rawurl,$s3finishedurl,$filename,$state,$datetime);
+$stmt->bind_param("sssssiii",$uname,$email,$phone,$s3rawurl,$s3finishedurl,$filename,$state,$datetime);
 
 if (!stmt->execute()){
 

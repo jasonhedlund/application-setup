@@ -5,7 +5,7 @@
 
 session_start();
 
-echo $_POST['useremail'];
+echo $_POST['email'];
 
 $uploaddir = '/tmp';
 $uploadfile = $uploaddir . basename($_FILES['userfile']['name']);
@@ -115,6 +115,14 @@ while ($row = $res->fetch_assoc()){
 
 echo $row['id'] . " " . $row['email']. " " . $row['phone'];
 }
+
+SNSARN=(`aws sns create-topic --name mp2sns`)
+
+aws sns set-topic-attributes --topic-arn $SNSARN --attribute-name DisplayName --attribute-value mp2sns
+
+aws sns subscribe --topic-arn $SNSARN --protocol sms --notification-endpoint $email
+
+aws sns publish --topic-arn $SNSARN --message "You have been successfully subscribed!"
 
 $link->close();
 

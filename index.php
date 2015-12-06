@@ -1,5 +1,3 @@
-#!/usr/bin/php
-
 <?php session_start(); ?>
 <html>
 <head><title>Image Upload App</title>

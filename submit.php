@@ -1,6 +1,3 @@
-<html>
-<head>Results</head>
-<body>
 <?php 
 
 session_start();
@@ -38,6 +35,8 @@ $client = S3Client::factory(array(
 ));
 
 $bucket = uniqid("php-jph-",false);
+
+$rawurl = $bucket
 
 $result = $client->createBucket(array(
 'ACL' => 'public-read-write',
@@ -87,8 +86,8 @@ echo "Prepare failed: (" . $link->errno . ") " . $link->error:
 $uname= $_POST['uname'];
 $email= $_POST['email'];
 $phone= $_POST['phone'];
-$s3rawurl = $url;
-$s3finishedurl = 0;
+$s3rawurl = $rawurl;
+$s3finishedurl = $url;
 $filename = basename($_FILES['userfile']['name'];
 $state = 0;
 $datetime = now(;
@@ -116,18 +115,34 @@ while ($row = $res->fetch_assoc()){
 echo $row['id'] . " " . $row['email']. " " . $row['phone'];
 }
 
-SNSARN=(`aws sns create-topic --name mp2sns`)
+use Aws\Sns\SnsClient;
+$sns = new Aws\Sns\SnsClient(array(
+'version' => 'latest',
+'region' => 'us-east-1',
+'credentials' => [
+'key'    => '',
+'secret' => '',
+]
+));
 
-aws sns set-topic-attributes --topic-arn $SNSARN --attribute-name DisplayName --attribute-value mp2sns
+$result = $sns->createTopic(array(
+    'Name' => 'SNSJPH',
+));
 
-aws sns subscribe --topic-arn $SNSARN --protocol sms --notification-endpoint $email
+$snsARN = $result['TopicArn'];
 
-aws sns publish --topic-arn $SNSARN --message "You have been successfully subscribed!"
+$resultsns = $sns->subscribe (array(
+'Endpoint' => $email,
+'Protocol' => 'email',
+'TopicArn' => $snsARN,
+));
+
+$result = $sns->publish(array(
+	'Message' => 'File has been successfully uploaded from this email address',
+	'Subject' => 'S3 Bucket Image',    
+	'TopicArn' => $snsARN,
+));
 
 $link->close();
 
 ?>
-
-</body>
-</html>
-

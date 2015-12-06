@@ -143,6 +143,8 @@ $result = $sns->publish(array(
 	'TopicArn' => $snsARN,
 ));
 
+$_SESSION['GALLERY'] = TRUE;
+
 $link->close();
 
 ?>

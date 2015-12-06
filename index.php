@@ -1,6 +1,9 @@
+#!/usr/bin/php
+
 <?php session_start(); ?>
 <html>
 <head><title>Image Upload App</title>
+<link rel="stylesheet" type="text/css" href="/mystyle.css">
 </head>
 <body>
 <form enctype="multipart/form-data" action="submit.php" method="POST">

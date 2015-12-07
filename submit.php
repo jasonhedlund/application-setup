@@ -4,8 +4,6 @@ session_start();
 
 echo $_POST['email'];
 
-$email = $_SESSION['email'];
-
 $uploaddir = '/tmp';
 $uploadfile = $uploaddir . basename($_FILES['userfile']['name']);
 echo '<pre>';
@@ -155,14 +153,6 @@ $result = $sns->publish(array(
 	'Subject' => 'S3 Bucket Image',    
 	'TopicArn' => $snsARN,
 ));
-
-$link->real_query("SELECT * FROM PERSONS WHERE email = '$email'");
-
-while ($row = $res->fetch_assoc()) {
-
-echo $row['email']
-echo "<img src=\" " . $row['s3rawurl'] . "\" /><img src=\"" .$row['s3finishedurl'] . "\"/>";
-}
 
 $link->close();
 

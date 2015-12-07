@@ -3,9 +3,11 @@
 </head>
 <body>
 
+#!/usr/bin/php
+
 <?php
 session_start();
-$email = $_POST['email'];
+$email = $_SESSION['email'];
 
 require 'vendor/autoload.php';
 
@@ -26,16 +28,15 @@ if (mysqli_connect_errno()) {
     printf("Connect failed: %s\n", mysqli_connect_error());
     exit();
 }
-
-mysqli_query($link, "SELECT * FROM PERSON WHERE email = $'email'");
+'
+$link->real_query("SELECT * FROM PERSON WHERE email = '$email'");
 
 $res = $link->use_results();
 
 while($row = $res->fetch_assoc()){
 
 printf("\n");
-echo $row['useremail'];
-echo '<img src="'.$row['s3rawurl'].'" width="200" height="200" />';
+echo "<img src=\ " " .$row['finishedurl'] . "\" />";
 printf("\n");
 }
 

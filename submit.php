@@ -36,8 +36,6 @@ $client = S3Client::factory(array(
 
 $bucket = uniqid("php-jph-",false);
 
-$rawurl = $bucket
-
 $result = $client->createBucket(array(
 'ACL' => 'public-read-write',
 'Bucket' => $bucket
@@ -58,6 +56,19 @@ $result = $client->putObject(array(
 
 $url = $result['ObjectURL'];
 echo $url;
+
+$imagemagick = new Imagick ($uploadfile);
+$imagemagick = thumbnailImage(50,50);
+$imagemagick = writeImage($uploadfile);
+
+$thumbnail = $client->PutObject(array(
+	'ACL' => 'public-read-write',
+	'Bucket' => $bucket,
+	'Key' => "Thumbnail".$uploadfile,
+	'Sourcefile' => $uploadfile
+));
+
+$finishedurl = $thumbnail
 
 use Aws\Rds\RdsClient;
 
@@ -86,8 +97,8 @@ echo "Prepare failed: (" . $link->errno . ") " . $link->error:
 $uname= $_POST['uname'];
 $email= $_POST['email'];
 $phone= $_POST['phone'];
-$s3rawurl = $rawurl;
-$s3finishedurl = $url;
+$s3rawurl = $url;
+$s3finishedurl = $finishedurl;
 $filename = basename($_FILES['userfile']['name'];
 $state = 0;
 $datetime = now(;
@@ -142,8 +153,6 @@ $result = $sns->publish(array(
 	'Subject' => 'S3 Bucket Image',    
 	'TopicArn' => $snsARN,
 ));
-
-$_SESSION['GALLERY'] = TRUE;
 
 $link->close();
 

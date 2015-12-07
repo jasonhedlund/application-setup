@@ -57,22 +57,15 @@ if [ ${#SCALENAME[@]} -gt 0 ]
 echo "SCALING GROUPS to delete..."
 
 aws autoscaling update-auto-scaling-group --auto-scaling-group-name $SCALENAME --min-size 0 --max-size 0
-aws autoscaling delete-auto-scaling-group --auto-scaling-group-name $SCALENAME
+aws autoscaling delete-auto-scaling-group --auto-scaling-group-name $SCALENAME --force-delete
 aws autoscaling delete-launch-configuration --launch-configuration-name $LAUNCHCONF
 
 fi
 
-CWALARM=(`aws cloudwatch describe-alarms --alarm-names`)
+CWALARM=(`aws cloudwatch describe-alarms --alarm-names --output json`)
 
 echo "The alarms are: $CWALARM"
 
 aws cloudwatch delete-alarms --alarm-name $CWALARM
-
-SUBSCRIP=(`aws sns list-subscriptions --output json | grep SubscriptionArn | sed "/\"SubcriptionArn\": //g" | sed "s/\"//g"`)
-
-echo "The subscriptions are: " ${SUBSCRIP[@]}
-
-aws sns unsubscribe --subscription-arn ${SUBSCRIP[@]}
-
 
 echo "All done"
